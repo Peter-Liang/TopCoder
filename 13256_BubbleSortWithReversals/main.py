@@ -14,15 +14,7 @@ class BubbleSortWithReversals:
     def getMinSwaps(self, A, K):
         self.targetList = A
         self.get_reverse_candidate()
-        for i in range(K):
-            if not self.candidate_list:
-                break
-            current_max = max(self.candidate_list, key=lambda k: k["length"])
-            for index, value in enumerate(self.candidate_list):
-                if value == current_max:
-                    self.reverse_slice(value["start_index"], value["end_index"])
-                    del self.candidate_list[index]
-                    break
+        self.reverse_target(K)
         return self.bubble_sort()
 
     def bubble_sort(self):
@@ -54,3 +46,14 @@ class BubbleSortWithReversals:
         if end_index - start_index > 0:
             candidate = {"start_index": start_index, "start_value": start_value, "end_index": end_index, "end_value": end_value, "length": end_index - start_index}
             self.candidate_list.append(candidate)
+
+    def reverse_target(self, k):
+        for i in range(k):
+            if not self.candidate_list:
+                break
+            current_max = max(self.candidate_list, key=lambda d: d["length"])
+            for index, value in enumerate(self.candidate_list):
+                if value == current_max:
+                    self.reverse_slice(value["start_index"], value["end_index"])
+                    del self.candidate_list[index]
+                    break
